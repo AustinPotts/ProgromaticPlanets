@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
     // MARK: - View Lifecycle
     
     override func viewDidLoad() {
+        setUpSubViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,13 +57,34 @@ class SettingsViewController: UIViewController {
         
         //Switch
         
+        let shouldShowPlutoSwitch = UISwitch()
+        shouldShowPlutoSwitch.translatesAutoresizingMaskIntoConstraints = false // Always Set
+        shouldShowPlutoSwitch.addTarget(self, action: #selector(changeShouldShowPluto), for: .valueChanged)
+        
+        view.addSubview(shouldShowPlutoSwitch) //Add to Screen
+        
+        let switchTopConstraint = shouldShowPlutoSwitch.topAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: 60)
+       
+        let switchTrailingConstraint = shouldShowPlutoSwitch.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        
+        let label = UILabel()
+        switchTopConstraint.isActive = true
+        switchTrailingConstraint.isActive = true
+        
+        self.shouldShowPlutoSwitch = shouldShowPlutoSwitch
+        label.text = "Is pluto a planet"
+        view.addSubview(label)
+        
+        label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 20).isActive = true
+        label.trailingAnchor.constraint(equalTo: shouldShowPlutoSwitch.leadingAnchor, constant: 8).isActive = true
+        label.centerYAnchor.constraint(equalTo: shouldShowPlutoSwitch.centerYAnchor).isActive = true
         
     }
     
     
     // MARK: - Action Handlers
     
-    func changeShouldShowPluto(_ sender: UISwitch) {
+   @objc func changeShouldShowPluto(_ sender: UISwitch) {
         let userDefaults = UserDefaults.standard
         userDefaults.set(sender.isOn, forKey: .shouldShowPlutoKey)
     }
